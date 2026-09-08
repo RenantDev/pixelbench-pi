@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # The runners have no display and no sound card. The benchmark falls back to
+  # these on its own, but setting them keeps the logs quiet.
+  SDL_VIDEODRIVER: dummy
+  SDL_AUDIODRIVER: dummy
+  PYGAME_HIDE_SUPPORT_PROMPT: "1"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest
+      - name: Run the benchmark headless
+        run: python -m pixelbench -c light -t 5 --headless --no-sound --json result.json
+      - name: Check the JSON summary carries no environment data
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("result.json"))
+          leaky = [k for k in r if k in ("hostname", "user", "path", "cwd")]
+          assert not leaky, f"the summary leaks {leaky}"
+          assert r["frames"] > 0
+          print("ok:", r["fps_mean"], "FPS")
+          PY

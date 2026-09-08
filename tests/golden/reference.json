@@ -1,0 +1,24 @@
+{
+  "_comment": "Hashes captured from the reference implementation. They lock the rendered output down to the pixel: the scene is deterministic (fixed seed, quantised water phase), so any change in these means the picture changed. If you change the art on purpose, regenerate them deliberately - never edit a hash to make a test pass.",
+  "instants": [
+    0.0,
+    3.7,
+    11.3,
+    27.9
+  ],
+  "frames": {
+    "light@0.0": "3b861d819851eeb54dc2b442b368fa258a33cb402461766ee371f98adad9bdf4",
+    "light@3.7": "308f9eea465ecd901e369e6e03d29c9997424d49e9263b475330975e48c98a6d",
+    "light@11.3": "c70da77b4fa6c7d77f655f3273cc56266c8176124d1b121d52ca7e2eddf36b00",
+    "light@27.9": "56e1a7fe1805ebf6c3f4260e64594df5fa6a7c62e2aec8deefd7b93a4c32f419",
+    "medium@0.0": "c89d7911f9e923c76af150ef6f6d2f806345d3a48e2c28929b68b2274e26a970",
+    "medium@3.7": "9cde3bbd96f774d8695642cd65afb4730dee97bf5fad8e6b776eaf932163faf3",
+    "medium@11.3": "1db6cca8b0df2bd262c928326c6f0a32b938f1a13714020f09143c3eb714c63d",
+    "medium@27.9": "3a2ac3e46e10ebf683682309e3348df738ab3832be5db4b948e48da6f7333a8b"
+  },
+  "audio_sha256": "a7f725c1462a5425b5719829f64d92affa2280ef0adc5d116f126c010dab8aa4",
+  "audio_shape": [
+    1411200,
+    2
+  ]
+}

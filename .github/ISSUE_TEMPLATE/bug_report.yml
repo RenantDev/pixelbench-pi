@@ -1,0 +1,32 @@
+name: Bug report
+description: Something renders wrong, crashes, or measures wrong
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what you got instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: The exact command line you ran.
+      placeholder: pixelbench -c heavy --cpu
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Board/CPU, OS, display server (X11/Wayland), resolution, cooling, overclock. Plus `python -c "import pygame, numpy; print(pygame.version.ver, numpy.__version__)"`.
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: Benchmark output
+      description: The full summary block, or the `--json` file if you have one.
+      render: text

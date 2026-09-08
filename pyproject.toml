@@ -1,0 +1,69 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pixelbench"
+version = "0.1.0"
+description = "A pixel art FPS benchmark for the Raspberry Pi, with thermal and throttling telemetry"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [{ name = "Renant Bernabé" }]
+keywords = ["raspberry-pi", "benchmark", "fps", "pygame", "pixel-art", "arm", "sdl2"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: X11 Applications",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: System :: Benchmark",
+    "Topic :: System :: Hardware",
+]
+dependencies = [
+    "numpy>=1.21",
+    "pygame>=2.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.5"]
+
+[project.scripts]
+pixelbench = "pixelbench.cli:run"
+
+[project.urls]
+Homepage = "https://github.com/RenantDev/pixelbench-pi"
+Repository = "https://github.com/RenantDev/pixelbench-pi"
+Issues = "https://github.com/RenantDev/pixelbench-pi/issues"
+Changelog = "https://github.com/RenantDev/pixelbench-pi/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pixelbench"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4"]
+ignore = [
+    "E741",   # ambiguous variable names: Q, c, d are the notation of the physics
+    "B008",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"src/pixelbench/cli.py" = ["E402"]   # SDL env vars must be set before importing pygame
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

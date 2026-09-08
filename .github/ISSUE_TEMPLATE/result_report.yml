@@ -1,0 +1,22 @@
+name: Benchmark result
+description: Share numbers from your board
+labels: ["results"]
+body:
+  - type: markdown
+    attributes:
+      value: Results from boards other than a Pi 5 are genuinely useful. Thanks.
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      description: Board, OS, display server, resolution, cooling, overclock (if any).
+    validations:
+      required: true
+  - type: textarea
+    id: numbers
+    attributes:
+      label: Results
+      description: Paste the summary block, or the `--json` output, for one or more presets. Please confirm `throttled` stayed at `0x0`.
+      render: text
+    validations:
+      required: true
