@@ -70,13 +70,42 @@ telemetria mostra `n/a` e o benchmark roda do mesmo jeito.
 
 ## Instalação
 
-Precisa de Python 3.9+, SDL2 e um `pygame` com `pygame._sdl2` (qualquer wheel do
-PyPI serve; no Raspberry Pi OS, `sudo apt install python3-pygame python3-numpy`
-também funciona).
+Uma linha, sem clone e sem git:
 
 ```bash
-pip install git+https://github.com/RenantDev/pixelbench-pi
+pip install https://github.com/RenantDev/pixelbench-pi/releases/latest/download/pixelbench-pi.tar.gz
 ```
+
+Essa URL sempre aponta para o release mais novo, então continua valendo nas
+próximas versões. Precisa de Python 3.9+, SDL2 e um `pygame` com `pygame._sdl2`
+(qualquer wheel do PyPI tem).
+
+### No Raspberry Pi OS e no Debian
+
+As versões recentes não deixam o pip escrever no Python do sistema (PEP 668),
+então a linha acima precisa de um ambiente virtual. Com `--system-site-packages`
+ele reaproveita o `pygame` e o `numpy` do apt, e a instalação leva segundos em
+vez de minutos:
+
+```bash
+sudo apt install -y python3-pygame python3-numpy
+python3 -m venv --system-site-packages ~/.venvs/pixelbench
+~/.venvs/pixelbench/bin/pip install https://github.com/RenantDev/pixelbench-pi/releases/latest/download/pixelbench-pi.tar.gz
+~/.venvs/pixelbench/bin/pixelbench
+```
+
+Coloque `alias pixelbench=~/.venvs/pixelbench/bin/pixelbench` no seu `~/.bashrc`
+para ter o comando curto de volta.
+
+### Outras formas
+
+```bash
+pip install git+https://github.com/RenantDev/pixelbench-pi   # acompanha a main, precisa de git
+git clone https://github.com/RenantDev/pixelbench-pi && cd pixelbench-pi && pip install -e .
+```
+
+Os arquivos do release vêm com as somas SHA-256 em `SHA256SUMS.txt`, na
+[página de releases](https://github.com/RenantDev/pixelbench-pi/releases).
 
 ## Uso
 

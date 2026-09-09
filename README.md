@@ -75,21 +75,42 @@ telemetry reads `n/a` and the benchmark still runs.
 
 ## Install
 
-Needs Python 3.9+, SDL2, and a `pygame` that has `pygame._sdl2` (any wheel from
-PyPI does; on Raspberry Pi OS, `sudo apt install python3-pygame python3-numpy`
-also works).
+One line, no clone and no git:
 
 ```bash
-pip install git+https://github.com/RenantDev/pixelbench-pi
+pip install https://github.com/RenantDev/pixelbench-pi/releases/latest/download/pixelbench-pi.tar.gz
 ```
 
-Or from a clone:
+That URL always resolves to the newest release, so it stays valid across
+versions. Needs Python 3.9+, SDL2, and a `pygame` that has `pygame._sdl2` (any
+wheel from PyPI has it).
+
+### On Raspberry Pi OS and Debian
+
+Recent releases refuse to let pip write into the system Python (PEP 668), so the
+line above needs a virtual environment. Use `--system-site-packages` and it
+reuses the apt builds of `pygame` and `numpy`, which turns the install into a
+few seconds instead of a few minutes:
 
 ```bash
-git clone https://github.com/RenantDev/pixelbench-pi
-cd pixelbench-pi
-pip install -e .
+sudo apt install -y python3-pygame python3-numpy
+python3 -m venv --system-site-packages ~/.venvs/pixelbench
+~/.venvs/pixelbench/bin/pip install https://github.com/RenantDev/pixelbench-pi/releases/latest/download/pixelbench-pi.tar.gz
+~/.venvs/pixelbench/bin/pixelbench
 ```
+
+Add `alias pixelbench=~/.venvs/pixelbench/bin/pixelbench` to your `~/.bashrc` to
+get the bare command back.
+
+### Other ways
+
+```bash
+pip install git+https://github.com/RenantDev/pixelbench-pi   # track main, needs git
+git clone https://github.com/RenantDev/pixelbench-pi && cd pixelbench-pi && pip install -e .
+```
+
+Release assets are listed with their SHA-256 sums in `SHA256SUMS.txt` on the
+[releases page](https://github.com/RenantDev/pixelbench-pi/releases).
 
 ## Use
 
