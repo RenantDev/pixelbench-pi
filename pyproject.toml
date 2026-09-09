@@ -3,8 +3,11 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pixelbench"
-version = "0.1.0"
+# The distribution is "pixelbench-pi": the bare name "pixelbench" already
+# belongs to an unrelated CPU-vs-GPU benchmark on PyPI. The import package
+# and the command stay "pixelbench".
+name = "pixelbench-pi"
+version = "0.1.1"
 description = "A pixel art FPS benchmark for the Raspberry Pi, with thermal and throttling telemetry"
 readme = "README.md"
 license = "MIT"
@@ -48,6 +51,11 @@ Changelog = "https://github.com/RenantDev/pixelbench-pi/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pixelbench"]
+
+[tool.hatch.build.targets.sdist]
+# Keep the source distribution small enough to be a pleasant one-line install.
+# The demo clip is 1.7 MB and belongs to the README, not to the package.
+exclude = ["docs/media", ".github"]
 
 [tool.ruff]
 line-length = 100
