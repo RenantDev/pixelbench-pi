@@ -1,19 +1,31 @@
-name: Publish to PyPI
+name: Publish
 
-# Trusted Publishing (OIDC): PyPI verifies this workflow's identity directly,
-# so the project holds no API token - there is no secret to leak, rotate or
-# accidentally commit. Configure the publisher once at
-# https://pypi.org/manage/account/publishing/ with:
+# Trusted Publishing (OIDC): the index verifies this workflow's identity
+# directly, so the project holds no API token - there is no secret to leak,
+# rotate, or accidentally commit.
+#
+# Configure the publisher once on each index, at
+# https://pypi.org/manage/account/publishing/ and
+# https://test.pypi.org/manage/account/publishing/, with:
 #   PyPI project name : pixelbench-pi
 #   Owner             : RenantDev
 #   Repository        : pixelbench-pi
 #   Workflow          : publish.yml
-#   Environment       : pypi
+#   Environment       : pypi   (on TestPyPI, use: testpypi)
+#
+# A published GitHub release goes to PyPI. Run it by hand to rehearse on
+# TestPyPI first.
 
 on:
   release:
     types: [published]
   workflow_dispatch:
+    inputs:
+      target:
+        description: Index to publish to
+        type: choice
+        options: [testpypi, pypi]
+        default: testpypi
 
 permissions:
   contents: read
@@ -33,6 +45,8 @@ jobs:
           python -m twine check dist/*
       - name: Check the version matches the tag
         if: github.event_name == 'release'
+        env:
+          TAG: ${{ github.event.release.tag_name }}
         run: |
           python - <<'PY'
           import os, pathlib, re, sys
@@ -43,19 +57,34 @@ jobs:
               sys.exit(f"tag {tag} does not match __version__ {ver}")
           print(f"ok: {ver}")
           PY
-        env:
-          TAG: ${{ github.event.release.tag_name }}
       - uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/
 
-  publish:
+  testpypi:
     needs: build
+    if: github.event_name == 'workflow_dispatch' && inputs.target == 'testpypi'
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  pypi:
+    needs: build
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.target == 'pypi')
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
-      id-token: write        # required for Trusted Publishing
+      id-token: write
     steps:
       - uses: actions/download-artifact@v4
         with:
