@@ -43,7 +43,23 @@ def test_frames_are_bit_identical(preset, _pygame):
         assert got == REFERENCE["frames"][f"{preset}@{t}"], f"frame changed at t={t}"
 
 
-def test_soundtrack_is_bit_identical():
+def test_soundtrack_matches_the_reference():
+    """The audio is compared numerically rather than by hash.
+
+    It goes through np.fft, which does not round identically across
+    architectures and numpy builds - a bit-exact hash would pass on the machine
+    that generated it and fail everywhere else. The RMS envelope over 64 windows
+    still catches a changed chord, a changed level or a changed arrangement,
+    which is what the test is actually for.
+    """
     track = make_music()
     assert list(track.shape) == REFERENCE["audio_shape"]
-    assert _digest(track) == REFERENCE["audio_sha256"]
+
+    mono = track.astype(np.float64).mean(axis=1) / 32767.0
+    assert mono.std() > 0, "the soundtrack came out silent"
+    assert np.sqrt((mono ** 2).mean()) == pytest.approx(REFERENCE["audio_rms"], rel=1e-3)
+    assert np.abs(mono).max() == pytest.approx(REFERENCE["audio_peak"], rel=1e-3)
+
+    envelope = [float(np.sqrt((b ** 2).mean())) for b in np.array_split(mono, 64)]
+    np.testing.assert_allclose(envelope, REFERENCE["audio_envelope_rms_64"],
+                               rtol=1e-3, atol=1e-5)

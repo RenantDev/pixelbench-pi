@@ -21,9 +21,14 @@ The suite runs headless (`SDL_VIDEODRIVER=dummy`), so it needs no display.
 
 ## The golden hashes
 
-`tests/test_golden.py` pins the rendered frames and the soundtrack with SHA-256
-hashes. The scene is deterministic — fixed seed, quantised water phase — so any
-change to those hashes means **the picture or the sound changed**.
+`tests/test_golden.py` pins the rendered frames with SHA-256 hashes. The scene
+is deterministic — fixed seed, quantised water phase — so any change to those
+hashes means **the picture changed**.
+
+The soundtrack is checked numerically instead of by hash: it goes through
+`np.fft`, which does not round identically across architectures, so a bit-exact
+hash would pass only on the machine that produced it. An RMS envelope over 64
+windows still catches a changed chord, level or arrangement.
 
 If a hash test fails and you did not intend a visual change, you have a bug.
 
