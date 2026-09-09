@@ -61,8 +61,6 @@ ignore = [
     "B008",
 ]
 
-[tool.ruff.lint.per-file-ignores]
-"src/pixelbench/cli.py" = ["E402"]   # SDL env vars must be set before importing pygame
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

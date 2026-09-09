@@ -23,9 +23,19 @@ checkerboard turns into a dotted line across the horizon.
 
 ## 3. Sharper crest than trough
 
-A real wave is not a symmetric sine; the top is steeper than the bottom. Applied
-as `slope *= clip(0.8 + 0.2*slope)`. Overdoing this flattens the whole sea — the
-reference says *slightly*.
+A real wave is not a symmetric sine; the top is steeper than the bottom, and
+pixel art exaggerates that on purpose — though only *slightly*, since overdoing
+it flattens the whole sea.
+
+This rule is applied, but not as a separate step. It falls out of the trochoidal
+profile in `scene.py` — `cos φ + Q·(cos²φ − 0.5)`, with `Q = Scene.STEEPNESS`
+(0.34) — which sharpens the crest and widens the trough as a consequence of the
+wave mechanics rather than as a cosmetic tweak. See
+[Wave physics §2](wave-physics.md#2-trochoidal-gerstner-profile).
+
+An earlier version multiplied the slope by a hand-tuned factor to get the same
+look. The trochoidal term replaced it: it is derived rather than guessed, and it
+costs nothing extra per frame.
 
 ## 4. Tileset cadence
 

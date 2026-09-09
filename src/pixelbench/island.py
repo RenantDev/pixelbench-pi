@@ -189,8 +189,8 @@ class Island:
                         s.set_at((x, yy), BEACH_FOAM)
         return s
 
-    # Each cell of a letter becomes a 3x2 px STONE. Deliberately squashed: it
-    # is text lying on the ground, seen almost edge-on.
+    # Each cell of a letter becomes a 2x2 px stone on a 3 px stride, so the
+    # letters read as text lying on the ground, seen almost edge-on.
     SOS_LETTERS = {
         "S": ("#####", "#....", "#####", "....#", "#####"),
         "O": ("#####", "#...#", "#...#", "#...#", "#####"),

@@ -23,16 +23,17 @@ FREQ_PATH = "/sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq"
 
 class Sensors:
     def __init__(self):
-        self.temp = self._temp()
+        self.temp = self.read_temp()
         self.temp_max = self.temp
-        self.freq = self._freq()
-        self.throttled = self._throttled()
+        self.freq = self.read_freq()
+        self.throttled = self.read_throttled()
         self.throttled_seen = self.throttled
         self._stop = threading.Event()
         self._t = threading.Thread(target=self._loop, daemon=True)
 
     @staticmethod
-    def _temp():
+    def read_temp():
+        """Die temperature in Celsius, or NaN where it cannot be read."""
         try:
             with open(TEMP_PATH) as f:
                 return int(f.read()) / 1000.0
@@ -40,7 +41,8 @@ class Sensors:
             return float("nan")
 
     @staticmethod
-    def _freq():
+    def read_freq():
+        """Current CPU clock in MHz, or 0 where it cannot be read."""
         try:
             with open(FREQ_PATH) as f:
                 return int(f.read()) // 1000
@@ -48,7 +50,8 @@ class Sensors:
             return 0
 
     @staticmethod
-    def _throttled():
+    def read_throttled():
+        """Raw `vcgencmd get_throttled` value ("0x0" when healthy), or "?"."""
         try:
             out = subprocess.run(["vcgencmd", "get_throttled"], capture_output=True,
                                  text=True, timeout=3).stdout.strip()
@@ -64,11 +67,11 @@ class Sensors:
 
     def _loop(self):
         while not self._stop.wait(1.0):
-            self.temp = self._temp()
+            self.temp = self.read_temp()
             if self.temp == self.temp:  # not NaN
                 self.temp_max = max(self.temp_max, self.temp)
-            self.freq = self._freq()
-            self.throttled = self._throttled()
+            self.freq = self.read_freq()
+            self.throttled = self.read_throttled()
             # Latch it: a throttling event that lasts one second still
             # invalidates the run, and must survive to the final report.
             if self.throttled not in ("0x0", "?"):

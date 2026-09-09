@@ -17,7 +17,7 @@ def test_every_preset_renders(preset):
         cfg = PRESETS[preset]
         rng = np.random.default_rng(20260831)
         scene = Scene(cfg["w"], cfg["h"], rng)
-        frames = make_sprites(rng)
+        frames = make_sprites()
         flock = Flock(cfg["sprites"], cfg["w"], cfg["h"], rng)
         buf = pygame.Surface((cfg["w"], cfg["h"]))
         for i in range(12):

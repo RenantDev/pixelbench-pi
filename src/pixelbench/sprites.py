@@ -51,7 +51,7 @@ def art(lines, colors, scale=1):
     return s
 
 
-def make_sprites(rng):
+def make_sprites():
     """Turn the bird ASCII art into coloured Surfaces, one set per tint."""
     flocks = []
     for color in BIRD_TINTS:

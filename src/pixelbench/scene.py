@@ -58,7 +58,6 @@ class Scene:
 
     def __init__(self, w, h, rng):
         self.w, self.h = w, h
-        self.rng = rng
         self.horizon = int(h * 0.62)
         hs = self.horizon            # sky height
         hm = h - hs                  # sea height

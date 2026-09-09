@@ -48,7 +48,7 @@ def render_frames(preset, start, duration, fps, outdir):
     w, h = cfg["w"], cfg["h"]
     rng = np.random.default_rng(SEED)
     scene = Scene(w, h, rng)
-    birds = make_sprites(rng)
+    birds = make_sprites()
     flock = Flock(cfg["sprites"], w, h, rng)
     buf = pygame.Surface((w, h))
 

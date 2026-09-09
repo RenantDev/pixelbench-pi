@@ -110,7 +110,7 @@ def main(argv=None):
     buf = pygame.Surface((width, height))
     rng = np.random.default_rng(20260831)
     scene = Scene(width, height, rng)
-    bird_frames = make_sprites(rng)
+    bird_frames = make_sprites()
     flock = Flock(n_sprites, width, height, rng)
 
     def fonts_for(h):
@@ -210,7 +210,7 @@ def main(argv=None):
 
     total = time.perf_counter() - t0
     sensors.stop()
-    temp_end, throttled_end = sensors.temp, sensors._throttled()
+    temp_end, throttled_end = sensors.temp, sensors.read_throttled()
     fullscreen_now = out.fullscreen
     out.close()
     if music is not None:
