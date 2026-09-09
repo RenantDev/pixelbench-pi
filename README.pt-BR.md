@@ -10,6 +10,10 @@ chip e `vcgencmd get_throttled`, tudo num bloco só.
 
 [English](README.md)
 
+<p align="center">
+  <img src="docs/media/demo.gif" alt="A cena do benchmark: um pôr do sol synthwave sobre o mar, com uma ilha, ondas quebrando na costa e um náufrago pedindo socorro" width="480">
+</p>
+
 ```
 === pixelbench - pixel art FPS benchmark =========================
  preset...........: medium  (480x270 internal, 90 sprites)
@@ -59,6 +63,10 @@ da água quantizada), então duas rodadas medem a mesma imagem.
 
 Tudo que é específico do Pi degrada com elegância: em hardware sem `vcgencmd` a
 telemetria mostra `n/a` e o benchmark roda do mesmo jeito.
+
+> O clipe acima é renderizado direto do renderer pelo
+> [`tools/record_demo.py`](tools/record_demo.py) — não é captura de tela. A cena é
+> determinística, então o mesmo comando reproduz o mesmo arquivo byte a byte.
 
 ## Instalação
 

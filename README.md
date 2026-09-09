@@ -14,6 +14,10 @@ synthesised in numpy — then reports FPS, frame time, 1% low, die temperature a
 
 [Português](README.pt-BR.md)
 
+<p align="center">
+  <img src="docs/media/demo.gif" alt="The benchmark scene: a synthwave sunset over a sea with an island, waves breaking on its shore, and a castaway signalling for help" width="480">
+</p>
+
 ```
 === pixelbench - pixel art FPS benchmark =========================
  preset...........: medium  (480x270 internal, 90 sprites)
@@ -64,6 +68,10 @@ two runs measure the same picture.
 
 Everything Pi-specific degrades gracefully: on hardware without `vcgencmd` the
 telemetry reads `n/a` and the benchmark still runs.
+
+> The clip above is rendered straight from the renderer by
+> [`tools/record_demo.py`](tools/record_demo.py) — not a screen capture. The scene is
+> deterministic, so the same command reproduces the same file byte for byte.
 
 ## Install
 
