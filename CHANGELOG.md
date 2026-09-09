@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-09-09
+
+### Added
+
+- Published on PyPI as `pixelbench-pi`, so installing is `pip install
+  pixelbench-pi`.
+- A release workflow that publishes through PyPI Trusted Publishing (OIDC).
+  The project holds no API token: there is no secret to leak or rotate. It
+  also refuses to publish if the tag and `__version__` disagree.
+
+### Fixed
+
+- The README's links and demo image were relative, so they resolved against
+  pypi.org and rendered broken on the project page. They are absolute now.
+
 ## [0.1.1] - 2026-09-09
 
 ### Added
@@ -56,5 +71,6 @@ First public release.
 - `--json` export of the summary, carrying measurements only.
 - Golden-hash tests pinning every rendered frame and the soundtrack bit for bit.
 
+[0.1.2]: https://github.com/RenantDev/pixelbench-pi/releases/tag/v0.1.2
 [0.1.1]: https://github.com/RenantDev/pixelbench-pi/releases/tag/v0.1.1
 [0.1.0]: https://github.com/RenantDev/pixelbench-pi/releases/tag/v0.1.0

@@ -1,0 +1,64 @@
+name: Publish to PyPI
+
+# Trusted Publishing (OIDC): PyPI verifies this workflow's identity directly,
+# so the project holds no API token - there is no secret to leak, rotate or
+# accidentally commit. Configure the publisher once at
+# https://pypi.org/manage/account/publishing/ with:
+#   PyPI project name : pixelbench-pi
+#   Owner             : RenantDev
+#   Repository        : pixelbench-pi
+#   Workflow          : publish.yml
+#   Environment       : pypi
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build wheel and sdist
+        run: |
+          python -m pip install --upgrade pip build twine
+          python -m build
+          python -m twine check dist/*
+      - name: Check the version matches the tag
+        if: github.event_name == 'release'
+        run: |
+          python - <<'PY'
+          import os, pathlib, re, sys
+          tag = os.environ["TAG"].lstrip("v")
+          init = pathlib.Path("src/pixelbench/__init__.py").read_text()
+          ver = re.search(r'__version__ = "([^"]+)"', init).group(1)
+          if ver != tag:
+              sys.exit(f"tag {tag} does not match __version__ {ver}")
+          print(f"ok: {ver}")
+          PY
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write        # required for Trusted Publishing
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1

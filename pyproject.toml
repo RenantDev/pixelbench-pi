@@ -7,7 +7,7 @@ build-backend = "hatchling.build"
 # belongs to an unrelated CPU-vs-GPU benchmark on PyPI. The import package
 # and the command stay "pixelbench".
 name = "pixelbench-pi"
-version = "0.1.1"
+version = "0.1.2"
 description = "A pixel art FPS benchmark for the Raspberry Pi, with thermal and throttling telemetry"
 readme = "README.md"
 license = "MIT"

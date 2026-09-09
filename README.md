@@ -1,8 +1,8 @@
 # pixelbench
 
 [![CI](https://github.com/RenantDev/pixelbench-pi/actions/workflows/ci.yml/badge.svg)](https://github.com/RenantDev/pixelbench-pi/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/RenantDev/pixelbench-pi/blob/main/LICENSE)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://github.com/RenantDev/pixelbench-pi/blob/main/pyproject.toml)
 
 **A pixel art FPS benchmark for the Raspberry Pi**, with thermal and throttling
 telemetry built into the result.
@@ -12,10 +12,10 @@ island with a castaway working through his routine, birds, and a soundtrack
 synthesised in numpy — then reports FPS, frame time, 1% low, die temperature and
 `vcgencmd get_throttled`, all in one block.
 
-[Português](README.pt-BR.md)
+[Português](https://github.com/RenantDev/pixelbench-pi/blob/main/README.pt-BR.md)
 
 <p align="center">
-  <img src="docs/media/demo.gif" alt="The benchmark scene: a synthwave sunset over a sea with an island, waves breaking on its shore, and a castaway signalling for help" width="480">
+  <img src="https://raw.githubusercontent.com/RenantDev/pixelbench-pi/main/docs/media/demo.gif" alt="The benchmark scene: a synthwave sunset over a sea with an island, waves breaking on its shore, and a castaway signalling for help" width="480">
 </p>
 
 ```
@@ -70,7 +70,7 @@ Everything Pi-specific degrades gracefully: on hardware without `vcgencmd` the
 telemetry reads `n/a` and the benchmark still runs.
 
 > The clip above is rendered straight from the renderer by
-> [`tools/record_demo.py`](tools/record_demo.py) — not a screen capture. The scene is
+> [`tools/record_demo.py`](https://github.com/RenantDev/pixelbench-pi/blob/main/tools/record_demo.py) — not a screen capture. The scene is
 > deterministic, so the same command reproduces the same file byte for byte.
 
 ## Install
@@ -190,22 +190,22 @@ median frame time before concluding anything got worse.
 
 The interesting parts are documented on their own:
 
-- [Wave physics](docs/wave-physics.md) — deep-water dispersion, the trochoidal
+- [Wave physics](https://github.com/RenantDev/pixelbench-pi/blob/main/docs/wave-physics.md) — deep-water dispersion, the trochoidal
   profile, refraction and shoaling over the island's bank, the breaker index,
   and one approach that did not work.
-- [Pixel art rules](docs/pixel-art-rules.md) — why the water is flat colour with
+- [Pixel art rules](https://github.com/RenantDev/pixelbench-pi/blob/main/docs/pixel-art-rules.md) — why the water is flat colour with
   stepped highlights, where dithering helps and where it produces a dotted line.
-- [Audio synthesis](docs/audio-synthesis.md) — the soundtrack, and the
+- [Audio synthesis](https://github.com/RenantDev/pixelbench-pi/blob/main/docs/audio-synthesis.md) — the soundtrack, and the
   infrasound bug that taught the lesson in it.
-- [Benchmark methodology](docs/benchmarking.md) — what is measured, what is
+- [Benchmark methodology](https://github.com/RenantDev/pixelbench-pi/blob/main/docs/benchmarking.md) — what is measured, what is
   discarded, and how to reproduce a comparable run.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). The scene is pinned by golden hashes:
+See [CONTRIBUTING.md](https://github.com/RenantDev/pixelbench-pi/blob/main/CONTRIBUTING.md). The scene is pinned by golden hashes:
 if you change how it looks, the tests will tell you, and updating those hashes
 is a deliberate act, never a way to make a test pass.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](https://github.com/RenantDev/pixelbench-pi/blob/main/LICENSE).
