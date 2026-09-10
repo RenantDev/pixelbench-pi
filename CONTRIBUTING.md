@@ -50,6 +50,10 @@ loop needs numbers:
 ## Style
 
 - `ruff check .` must pass. Line length 100.
+- Do **not** run `ruff format`. The project lints but hand-formats: the colour
+  palettes are laid out as ramps and the Bayer matrix as a 4x4 grid, and an
+  autoformatter turns both into one-value-per-line columns that hide what they
+  are. CI checks lint only, on purpose.
 - Comments explain **why**, not what. The tricky parts of this codebase are
   tricky for physical reasons; if you change one, update the reasoning in
   `docs/` along with it.

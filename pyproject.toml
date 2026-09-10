@@ -58,6 +58,10 @@ packages = ["src/pixelbench"]
 exclude = ["docs/media", ".github"]
 
 [tool.ruff]
+# Ruff is used as a LINTER here, not as a formatter. Do not run `ruff format`:
+# it would put each of the twelve sky colours on its own line and flatten the
+# Bayer 4x4 matrix into a single column. In a renderer built on palettes and
+# small matrices, the visual grouping of those literals is the documentation.
 line-length = 100
 src = ["src", "tests"]
 target-version = "py39"
