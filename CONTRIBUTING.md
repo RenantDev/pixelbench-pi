@@ -70,3 +70,18 @@ loop needs numbers:
 Benchmark numbers from other boards are genuinely useful. Open an issue with the
 `--json` output and describe the environment: board, OS, display server,
 resolution, cooling, and whether it is overclocked.
+
+## Releasing
+
+1. Bump `version` in `pyproject.toml` and `__version__` in
+   `src/pixelbench/__init__.py`. They must match, and the publish workflow
+   refuses to run if either disagrees with the tag.
+2. Add the entry to `CHANGELOG.md`.
+3. Tag `vX.Y.Z` and create the GitHub release. The workflow builds the wheel
+   and sdist and attaches them.
+4. Attach a copy of the sdist named `pixelbench-pi.tar.gz`, with no version in
+   the name. That is what the README's one-line install points at through
+   `/releases/latest/download/`, so the instruction never has to be edited.
+5. Publishing to PyPI is gated on the repository variable `PYPI_PUBLISHING`
+   being `enabled`, so a release does not fail against an index with no
+   trusted publisher configured yet.

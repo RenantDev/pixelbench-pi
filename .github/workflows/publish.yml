@@ -13,6 +13,13 @@ name: Publish
 #   Workflow          : publish.yml
 #   Environment       : pypi   (on TestPyPI, use: testpypi)
 #
+# Then flip the repository variable so releases actually publish:
+#   gh variable set PYPI_PUBLISHING --body enabled
+#
+# Until that variable is set, a release still builds and attaches its
+# artifacts but skips the upload, rather than failing against an index that
+# has never heard of this project.
+#
 # A published GitHub release goes to PyPI. Run it by hand to rehearse on
 # TestPyPI first.
 
@@ -80,7 +87,10 @@ jobs:
 
   pypi:
     needs: build
-    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.target == 'pypi')
+    if: >-
+      vars.PYPI_PUBLISHING == 'enabled' &&
+      (github.event_name == 'release' ||
+       (github.event_name == 'workflow_dispatch' && inputs.target == 'pypi'))
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
